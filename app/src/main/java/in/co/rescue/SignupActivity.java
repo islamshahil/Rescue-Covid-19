@@ -166,7 +166,7 @@ public class SignupActivity extends AppCompatActivity {
                 params.put("name",name);
                 params.put("email ",email);
                 params.put("phone", phone);
-                params.put("Password",password);
+                params.put("password",password);
                 params.put("state",state);
                 return params;
             }

@@ -20,4 +20,9 @@
     <string name="hint_email">Email</string>
     <string name="hint_phone">Phone</string>
     <string name="hint_confirm_password">Confirm Password</string>
+    <string name="title_activity_profile">ProfileActivity</string>
+
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Profile</string>
+    <string name="title_notifications">Notifications</string>
 </resources>
