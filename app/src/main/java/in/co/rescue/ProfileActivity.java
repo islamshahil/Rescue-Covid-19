@@ -27,4 +27,9 @@ public class ProfileActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navView, navController);
     }
 
+    @Override
+    public void onBackPressed() {
+        finishAffinity();
+        finish();
+    }
 }

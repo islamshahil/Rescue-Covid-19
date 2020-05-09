@@ -60,7 +60,7 @@ public class DashboardFragment extends Fragment {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // logoutUser();
+                logoutUser();
             }
         });
 

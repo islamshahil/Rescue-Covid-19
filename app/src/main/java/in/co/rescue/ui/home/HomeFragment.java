@@ -82,7 +82,7 @@ public class HomeFragment extends Fragment {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Toast.makeText(getContext(), response, Toast.LENGTH_LONG).show();
+                       // Toast.makeText(getContext(), response, Toast.LENGTH_LONG).show();
                         pDialog.dismiss();
                         try {
                             JSONObject object = new JSONObject(response);

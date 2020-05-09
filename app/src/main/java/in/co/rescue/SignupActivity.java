@@ -117,7 +117,7 @@ public class SignupActivity extends AppCompatActivity {
                 password = etpass.getText().toString();
 
                 if (!name.isEmpty() && !email.isEmpty() && !phone.isEmpty() && !password.isEmpty() && !state.isEmpty() && !state.equals("Select State")) {
-                   // register();
+                    register();
                     Toast.makeText(getApplicationContext(), state, Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(getApplicationContext(), "Please enter your details!", Toast.LENGTH_LONG).show();

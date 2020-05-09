@@ -62,7 +62,7 @@ public class LoginActivity extends AppCompatActivity {
         // Check if user is already logged in or not
         if (session.isLoggedIn()) {
             // User is already logged in. Take him to main activity
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            Intent intent = new Intent(LoginActivity.this, ProfileActivity.class);
             startActivity(intent);
             finish();
         }
@@ -83,6 +83,12 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        finishAffinity();
+        finish();
+    }
+
     private void login() {
 
         pDialog= ProgressDialog.show(LoginActivity.this,"","Logging In...",false,false);
@@ -92,12 +98,44 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
 
-                if(response.equalsIgnoreCase("Success")) {
-                    parseAccount();
-                } else if(response.equalsIgnoreCase("Invalid credentials.")){
+                if(response.equalsIgnoreCase("Invalid credentials.")){
                     Toast.makeText(LoginActivity.this,response,Toast.LENGTH_LONG).show();
                     finish();
                     startActivity(getIntent());
+                } else {
+
+                    try {
+                        JSONObject object = new JSONObject(response);
+                        JSONArray jsonArray = object.getJSONArray("result");
+
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject request = jsonArray.getJSONObject(i);
+
+                            String name = request.getString("name");
+                            String email = request.getString("email");
+                            String phone = request.getString("phone");
+                            String state = request.getString("state");
+
+
+                            // shared preference reference important
+                            SharedPreferences obj = getSharedPreferences("mypref",0);
+                            SharedPreferences.Editor editor = obj.edit();
+                            editor.putString("name",name);
+                            editor.putString("email",email);
+                            editor.putString("phone",phone);
+                            editor.putString("state",state);
+                            editor.commit();
+
+                            pDialog.hide();
+                            session.setLogin(true);
+                            Intent intent = new Intent(LoginActivity.this, ProfileActivity.class);
+                            startActivity(intent);
+                            finish();
+                            Toast.makeText(LoginActivity.this,"Welcome!!",Toast.LENGTH_LONG).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }, new Response.ErrorListener() {
@@ -122,66 +160,5 @@ public class LoginActivity extends AppCompatActivity {
         // Adding request to request queue
         AppController.getInstance().addToRequestQueue(strReq);
     }
-
-    private void parseAccount() {
-
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url.URL_FETCH_ACCOUNT,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        //  Toast.makeText(LoginActivity.this, response, Toast.LENGTH_LONG).show();
-                        try {
-                            JSONObject object = new JSONObject(response);
-                            JSONArray jsonArray = object.getJSONArray("result");
-
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject request = jsonArray.getJSONObject(i);
-
-                                String name = request.getString("name");
-                                String email = request.getString("email");
-                                String phone = request.getString("phone");
-                                String state = request.getString("state");
-
-
-                                // shared preference reference important
-                                SharedPreferences obj = getSharedPreferences("mypref",0);
-                                SharedPreferences.Editor editor = obj.edit();
-                                editor.putString("name",name);
-                                editor.putString("email",email);
-                                editor.putString("phone",phone);
-                                editor.putString("state",state);
-                                editor.commit();
-
-                                pDialog.hide();
-                                session.setLogin(true);
-                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                startActivity(intent);
-                                finish();
-                                Toast.makeText(LoginActivity.this,"Welcome!!",Toast.LENGTH_LONG).show();
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(LoginActivity.this, error.toString(), Toast.LENGTH_LONG).show();
-                    }
-                }) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("email",email);
-                return params;
-            }
-        };
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
-
-    }
-
 
 }
