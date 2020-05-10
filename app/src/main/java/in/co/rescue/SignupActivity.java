@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -31,6 +32,7 @@ public class SignupActivity extends AppCompatActivity {
     EditText etname, etemail, etphone, etpass;
     String name, email, phone, password, state;
     Button signup;
+    TextView policy;
     ProgressDialog pDialog;
     Spinner sstate;
 
@@ -51,6 +53,15 @@ public class SignupActivity extends AppCompatActivity {
         etphone = findViewById(R.id.et_phone);
         etpass = findViewById(R.id.et_pass);
         signup = findViewById(R.id.button_signup);
+        policy = findViewById(R.id.policy);
+
+        policy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(SignupActivity.this,MainActivity.class);
+                startActivity(i);
+            }
+        });
 
         // spinner
         sstate = (Spinner)findViewById(R.id.sstate);

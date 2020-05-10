@@ -81,6 +81,13 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        btnforgot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(LoginActivity.this, "Email at: shahilislam@gmail.com", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     @Override
@@ -89,7 +96,7 @@ public class LoginActivity extends AppCompatActivity {
         finish();
     }
 
-    private void login() {
+    private void login(){
 
         pDialog= ProgressDialog.show(LoginActivity.this,"","Logging In...",false,false);
 
