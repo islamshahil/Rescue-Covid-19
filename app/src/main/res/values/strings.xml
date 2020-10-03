@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Rescue</string>
+    <string name="app_name">Rescue2020</string>
 
     <string name="hint_username">Email</string>
     <string name="hint_password">Password</string>
